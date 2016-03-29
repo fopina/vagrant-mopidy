@@ -12,6 +12,11 @@ Vagrant.configure(2) do |config|
   config.vm.provider "virtualbox" do |vb|
     vb.name = "mopidy-dev"
     vb.linked_clone = true if Vagrant::VERSION =~ /^1.8/
+    if RUBY_PLATFORM =~ /darwin/
+      vb.customize ["modifyvm", :id, '--audio', 'coreaudio', '--audiocontroller', 'ac97']
+    else
+      vb.customize ["modifyvm", :id, '--audio', 'dsound', '--audiocontroller', 'ac97']
+    end
   end
 
   config.vm.provision "fix-no-tty", type: "shell", privileged: false, inline: <<-SHELL
