@@ -1,14 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-required_plugins = %w( vagrant-vbguest )
-required_plugins.each do |plugin|
-  system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
-end
-
 Vagrant.configure(2) do |config|
   config.vm.box = "debian/jessie64"
   config.vm.box_check_update = false
+  config.vbguest.auto_update = false if Vagrant.has_plugin? "vagrant-vbguest"
 
   config.vm.network "forwarded_port", guest: 6600, host: 9998
   config.vm.network "forwarded_port", guest: 6680, host: 9999
@@ -28,7 +24,12 @@ Vagrant.configure(2) do |config|
     apt-get -qq update
     apt-get -qq install build-essential python-dev python-pip
     apt-get -qq install python-gst-1.0 gir1.2-gstreamer-1.0 gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
-    #pip install -U mopidy
+    pip install mopidy
+
+    mkdir -p /root/.config/mopidy/
+    cp /vagrant/files/mopidy.conf /root/.config/mopidy/mopidy.conf
+    cp /vagrant/files/rc.local /etc/rc.local
+    nohup /usr/local/bin/mopidy &
   SHELL
 
   config.vm.post_up_message = "
