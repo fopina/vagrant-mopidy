@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
     if RUBY_PLATFORM =~ /darwin/
       vb.customize ["modifyvm", :id, '--audio', 'coreaudio', '--audiocontroller', 'ac97']
     else
-      vb.customize ["modifyvm", :id, '--audio', 'dsound', '--audiocontroller', 'ac97']
+      vb.customize ["modifyvm", :id, '--audio', 'pulse', '--audiocontroller', 'ac97']
     end
   end
 
