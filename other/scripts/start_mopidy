@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# restart mopidy in case re-provisioning added extensions...
+killall -9 /usr/local/bin/mopidy 2>/dev/null
+nohup /usr/local/bin/mopidy &

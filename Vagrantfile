@@ -19,23 +19,15 @@ Vagrant.configure(2) do |config|
     end
   end
 
+  # prevent "no tty" warnings during apt operations...
   config.vm.provision "fix-no-tty", type: "shell", privileged: false, inline: <<-SHELL
     sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
   SHELL
 
-  # install mopidy from source as per http://mopidy.readthedocs.org/en/latest/installation/source/
-
-  config.vm.provision "mopidy", type: "shell", inline: <<-SHELL
-    apt-get -qq update
-    apt-get -qq install build-essential python-dev python-pip
-    apt-get -qq install python-gst-1.0 gir1.2-gstreamer-1.0 gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
-    pip install mopidy
-
-    mkdir -p /root/.config/mopidy/
-    cp /vagrant/files/mopidy.conf /root/.config/mopidy/mopidy.conf
-    cp /vagrant/files/rc.local /etc/rc.local
-    nohup /usr/local/bin/mopidy &
-  SHELL
+  config.vm.provision "locale", type: "shell", path: "other/scripts/set_locale", args: ENV['LC_NAME']
+  config.vm.provision "mopidy", type: "shell", path: "other/scripts/install_mopidy"
+  config.vm.provision "extensions", type: "shell", path: "other/scripts/install_mopidy_extensions"
+  config.vm.provision "start", type: "shell", path: "other/scripts/start_mopidy"
 
   config.vm.post_up_message = "
   mopidy up and running.
