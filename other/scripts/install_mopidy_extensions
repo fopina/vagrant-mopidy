@@ -4,12 +4,12 @@ set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
+apt-get -qq install python-setuptools
+easy_install pip
+
 pip install Mopidy-MusicBox-Webclient
 pip install youtube-dl Mopidy-Youtube
 
-# required for Youtube due to some bug in latest certifi validating google certificate..
-# to be removed once it is known to be fixed..
-pip uninstall -y certifi
-pip install certifi==2015.04.28
-
 apt-get -qq install gstreamer1.0-plugins-bad
+
+systemctl restart mopidy

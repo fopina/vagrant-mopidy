@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-# yup, ugly. to be removed once it is setup as service (from source)
-nohup /usr/local/bin/mopidy &
-
-exit 0

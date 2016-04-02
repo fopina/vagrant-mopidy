@@ -5,13 +5,12 @@ set -e
 
 export DEBIAN_FRONTEND=noninteractive
 
+wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
+wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/jessie.list
 apt-get -qq update
-apt-get -qq install build-essential python-dev python-setuptools
-apt-get -qq install python-gst-1.0 gir1.2-gstreamer-1.0 gir1.2-gst-plugins-base-1.0 gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-tools
-easy_install pip
-pip install mopidy
+apt-get -qq install mopidy
 
+systemctl enable mopidy
+systemctl start mopidy
 
-mkdir -p /root/.config/mopidy/
-cp /vagrant/other/mopidy.conf /root/.config/mopidy/mopidy.conf
-cp /vagrant/other/rc.local /etc/rc.local
+cp /vagrant/other/mopidy.conf /etc/mopidy/mopidy.conf

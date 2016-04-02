@@ -27,7 +27,6 @@ Vagrant.configure(2) do |config|
   config.vm.provision "locale", type: "shell", path: "other/scripts/set_locale", args: ENV['LC_NAME']
   config.vm.provision "mopidy", type: "shell", path: "other/scripts/install_mopidy"
   config.vm.provision "extensions", type: "shell", path: "other/scripts/install_mopidy_extensions"
-  config.vm.provision "start", type: "shell", path: "other/scripts/start_mopidy"
 
   config.vm.post_up_message = "
   mopidy up and running.
