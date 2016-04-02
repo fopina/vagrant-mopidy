@@ -24,6 +24,7 @@ Vagrant.configure(2) do |config|
     sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
   SHELL
 
+  config.vm.provision "hostname-motd", type: "shell", path: "other/scripts/hostname_motd"
   config.vm.provision "locale", type: "shell", path: "other/scripts/set_locale", args: ENV['LC_NAME']
   config.vm.provision "mopidy", type: "shell", path: "other/scripts/install_mopidy"
   config.vm.provision "extensions", type: "shell", path: "other/scripts/install_mopidy_extensions"

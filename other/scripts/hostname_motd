@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e
+
+cat <<EOF > /etc/motd
+Welcome to Mopidy DEV VM.
+Report issues in https://github.com/fopina/vagrant-mopidy
+EOF
+
+echo "mopidydev" > /etc/hostname
+sed -i 's/^127.0.1.1.*/127.0.1.1\tmopidydev/' /etc/hosts
+hostname mopidydev
