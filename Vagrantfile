@@ -5,11 +5,12 @@ require 'yaml'
 
 current_dir = File.dirname(File.expand_path(__FILE__))
 begin
-  config = YAML.load_file("#{current_dir}/config.yaml")
-  config = {} unless config.is_a?(Hash)
+  extension_config = YAML.load_file("#{current_dir}/config.yaml")
+  extension_config = {} unless extension_config.is_a?(Hash)
 rescue
-  config = {}
+  extension_config = {}
 end
+extension_config.default = {}
 
 Vagrant.configure(2) do |config|
   config.vm.box = "debian/jessie64"
@@ -41,6 +42,7 @@ Vagrant.configure(2) do |config|
     pip install Mopidy-MusicBox-Webclient
   SHELL
   config.vm.provision "mopidy_youtube", type: "shell", path: "other/scripts/install_mopidy_youtube"
+  config.vm.provision "mopidy_soundcloud", type: "shell", path: "other/scripts/install_mopidy_soundcloud", args: extension_config["soundcloud"]["auth_token"]
   config.vm.provision "restart", type: "shell", inline: <<-SHELL
     systemctl restart mopidy
   SHELL

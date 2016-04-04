@@ -1,4 +1,4 @@
-# soundcloud configuration
+# soundcloud configuration  - check https://github.com/mopidy/mopidy-soundcloud#configuration
 soundcloud:
-  # your soundcloud API key - leave blank to disable extension
-  key:
+  # your soundcloud oauth token - leaving blank disables extension
+  auth_token:

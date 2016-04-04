@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -z "$1" ]; then
+  echo It seems you have not configured your AUTH_TOKEN for mopidy soundcloud > /dev/stderr
+  echo The extension will be disabled. Check config.yaml.example. > /dev/stderr
+fi
+
+pip install mopidy-soundcloud > /dev/null
+
+cat <<EOF > /usr/share/mopidy/conf.d/soundcloud.conf
+[soundcloud]
+auth_token = $1
+EOF
