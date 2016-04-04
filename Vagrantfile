@@ -39,10 +39,13 @@ Vagrant.configure(2) do |config|
   config.vm.provision "locale", type: "shell", path: "other/scripts/set_locale", args: ENV['LC_NAME']
   config.vm.provision "mopidy", type: "shell", path: "other/scripts/install_mopidy"
   config.vm.provision "mopidy_webclient", type: "shell", inline: <<-SHELL
-    pip install Mopidy-MusicBox-Webclient
+    pip install Mopidy-MusicBox-Webclient > /dev/null
   SHELL
   config.vm.provision "mopidy_youtube", type: "shell", path: "other/scripts/install_mopidy_youtube"
   config.vm.provision "mopidy_soundcloud", type: "shell", path: "other/scripts/install_mopidy_soundcloud", args: extension_config["soundcloud"]["auth_token"]
+  config.vm.provision "mopidy_tunein", type: "shell", inline: <<-SHELL
+    pip install mopidy-tunein > /dev/null
+  SHELL
   config.vm.provision "restart", type: "shell", inline: <<-SHELL
     systemctl restart mopidy
   SHELL
