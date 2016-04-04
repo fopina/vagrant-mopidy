@@ -14,3 +14,7 @@ systemctl enable mopidy
 systemctl start mopidy
 
 cp /vagrant/other/mopidy.conf /etc/mopidy/mopidy.conf
+
+# not required by mopidy but to able to install extensions with pip
+apt-get -qq install python-setuptools
+easy_install pip

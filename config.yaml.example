@@ -1,0 +1,4 @@
+# soundcloud configuration
+soundcloud:
+  # your soundcloud API key - leave blank to disable extension
+  key:

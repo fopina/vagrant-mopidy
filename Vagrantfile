@@ -1,6 +1,16 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'yaml'
+
+current_dir = File.dirname(File.expand_path(__FILE__))
+begin
+  config = YAML.load_file("#{current_dir}/config.yaml")
+  config = {} unless config.is_a?(Hash)
+rescue
+  config = {}
+end
+
 Vagrant.configure(2) do |config|
   config.vm.box = "debian/jessie64"
   config.vm.box_check_update = false
@@ -27,7 +37,14 @@ Vagrant.configure(2) do |config|
   config.vm.provision "hostname-motd", type: "shell", path: "other/scripts/hostname_motd"
   config.vm.provision "locale", type: "shell", path: "other/scripts/set_locale", args: ENV['LC_NAME']
   config.vm.provision "mopidy", type: "shell", path: "other/scripts/install_mopidy"
-  config.vm.provision "extensions", type: "shell", path: "other/scripts/install_mopidy_extensions"
+  config.vm.provision "mopidy_webclient", type: "shell", inline: <<-SHELL
+    pip install Mopidy-MusicBox-Webclient
+  SHELL
+  config.vm.provision "mopidy_youtube", type: "shell", path: "other/scripts/install_mopidy_youtube"
+  config.vm.provision "restart", type: "shell", inline: <<-SHELL
+    systemctl restart mopidy
+  SHELL
+
 
   config.vm.post_up_message = "
   mopidy up and running.

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get -qq install gstreamer1.0-plugins-bad
+pip install youtube-dl Mopidy-Youtube
